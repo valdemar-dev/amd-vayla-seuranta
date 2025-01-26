@@ -1,63 +1,174 @@
 import { useState, } from "react";
 import { useSearchParams, } from "react-router"; 
+import { useEffect, } from "react";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { User, School, Book, } from "lucide-react"
+import { School, Book, ChevronDown, User } from "lucide-react";
 
-import Exams from "./Dashboard/Exams"
+import Exams from "./Dashboard/Exams";
+import ExamPerformances from "./Dashboard/ExamPerformances";
+import Learning from "./Dashboard/Learning";
+import LearningPerformances from "./Dashboard/LearningPerformances";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarFooter,
 } from "@/components/ui/sidebar"
 
-// Menu items.
-const items = [
-  {
-    title: "Students",
-    pageIndex: 1,
-    icon: User,
-  },
-  {
-    title: "Exams",
-    pageIndex: 2,
-    icon: School,
-  },
-  {
-    title: "Tasks",
-    pageIndex: 3,
-    icon: Book,
-  },
-]
+import {
+    ModeToggle
+} from "@/components/mode-toggle";
+
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible"
 
 export function AppSidebar({ setParams }) {
   return (
-    <Sidebar>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <button onClick={() => setParams({ page: item.pageIndex}) }>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </button>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
+    <Sidebar>  
+	<SidebarContent>
+	    <SidebarGroup>
+		<Collapsible defaultOpen className="group/collapsible">
+		    <SidebarGroupContent>
+			<SidebarMenu>
+			    <SidebarMenuItem>
+				<SidebarMenuButton>
+				    <CollapsibleTrigger asChild>
+					<SidebarMenuButton>
+					    <School />
+
+					    <span>
+						{"Exam Tasks"}
+					    </span>
+
+					    <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+					</SidebarMenuButton>
+				    </CollapsibleTrigger>
+				</SidebarMenuButton>
+			    </SidebarMenuItem>
+
+			    <CollapsibleContent>
+				<SidebarMenuSub>
+				    <SidebarMenuSubItem>
+					<SidebarMenuButton asChild>
+					    <button
+						onClick={() => setParams({ page: 1, })}
+					    >
+						{"Manage Tasks"}
+					    </button>
+					</SidebarMenuButton>
+				    </SidebarMenuSubItem>
+
+				    <SidebarMenuSubItem>
+					<SidebarMenuButton asChild>
+					    <button
+						onClick={() => setParams({ page: 2, })}
+					    >
+						{"Performances"}
+					    </button>
+					</SidebarMenuButton>
+				    </SidebarMenuSubItem>
+				</SidebarMenuSub>
+			    </CollapsibleContent>
+			  </SidebarMenu>
+		      </SidebarGroupContent>
+		</Collapsible>
+		<Collapsible defaultOpen className="group/collapsible">
+		    <SidebarGroupContent>
+			<SidebarMenu>
+			    <SidebarMenuItem>
+				<SidebarMenuButton>
+				    <CollapsibleTrigger asChild>
+					<SidebarMenuButton>
+					    <Book />
+
+					    <span>
+						{"Learning Tasks"}
+					    </span>
+
+					    <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+					</SidebarMenuButton>
+				    </CollapsibleTrigger>
+				</SidebarMenuButton>
+			    </SidebarMenuItem>
+
+			    <CollapsibleContent>
+				<SidebarMenuSub>
+				    <SidebarMenuSubItem>
+					<SidebarMenuButton asChild>
+					    <button
+						onClick={() => setParams({ page: 3, })}
+					    >
+						{"Manage Tasks"}
+					    </button>
+					</SidebarMenuButton>
+				    </SidebarMenuSubItem>
+
+				    <SidebarMenuSubItem>
+					<SidebarMenuButton asChild>
+					    <button
+						onClick={() => setParams({ page: 4, })}
+					    >
+						{"Performances"}
+					    </button>
+					</SidebarMenuButton>
+				    </SidebarMenuSubItem>
+				</SidebarMenuSub>
+			    </CollapsibleContent>
+			  </SidebarMenu>
+		      </SidebarGroupContent>
+		</Collapsible>
+		<Collapsible defaultOpen className="group/collapsible">
+		    <SidebarGroupContent>
+			<SidebarMenu>
+			    <SidebarMenuItem>
+				<SidebarMenuButton>
+				    <CollapsibleTrigger asChild>
+					<SidebarMenuButton>
+					    <User />
+
+					    <span>
+						{"Students"}
+					    </span>
+
+					    <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+					</SidebarMenuButton>
+				    </CollapsibleTrigger>
+				</SidebarMenuButton>
+			    </SidebarMenuItem>
+
+			    <CollapsibleContent>
+				<SidebarMenuSub>
+				    <SidebarMenuSubItem>
+					<SidebarMenuButton asChild>
+					    <button
+						onClick={() => setParams({ page: 5, })}
+					    >
+						{"Student Overview"}
+					    </button>
+					</SidebarMenuButton>
+				    </SidebarMenuSubItem>
+				</SidebarMenuSub>
+			    </CollapsibleContent>
+			  </SidebarMenu>
+		      </SidebarGroupContent>
+		</Collapsible>
+	    </SidebarGroup>
+	</SidebarContent>
+
+	<SidebarFooter>
+	    <ModeToggle />
+	</SidebarFooter>
     </Sidebar>
   )
 }
@@ -66,7 +177,7 @@ export function AppSidebar({ setParams }) {
 export default function Dashboard() { 
     const [pageIndex, setPageIndex] = useState(1);
 
-    const [params, setParams] = useSearchParams();
+    const [params, setParams] = useSearchParams({ page: "1", });	
 
     return (
 	<SidebarProvider>
@@ -74,7 +185,11 @@ export default function Dashboard() {
 	  <main className="w-full rounded-md">
 	    <SidebarTrigger />
 
-	    {params.get("page") === "1" && <Exams/>}
+	    {params.get("page") === "1" && <Exams />}
+	    {params.get("page") === "2" && <ExamPerformances />}
+
+	    {params.get("page") === "3" && <Learning />}
+	    {params.get("page") === "4" && <LearningPerformances />}
 	  </main>
 	</SidebarProvider>    
     )

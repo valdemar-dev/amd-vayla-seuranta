@@ -1,0 +1,104 @@
+`GET : /api/login/`
+    - tämä endpoint loggaa administraattorin niinsanotusti sisään
+    - parametreina tunnus ja salasana.
+    - jos molemmat on oikein, niin palauta session cookie jota käytetään `Authorization` headerinä kaikissa alla olevissa endpointeissa.
+
+
+`GET : /api/students/`
+    - pitäisi palauttaa jokainen opiskelija, kai tässä muodossa:
+      { student_id: 1, first_name: "John", last_name: "Doe", group_number: "A1" },
+
+
+`GET : /api/exam-tasks/`
+    - pitäisi palauttaa jokainen python koe-tehtävä tässä muodossa (perus json):
+      {
+	task_code: "JKA254",
+	topic_area: 1,
+	theme: "Math",
+	task_description: "Solve for x in the equation 2x + 3 = 7.",
+	sample_output: "x = 2",
+	locked: false,
+	last_used: "2024-01-10",
+      },
+      {
+	task_code: "B8KT09",
+	topic_area: 2,
+	theme: "Physics",
+	task_description: "Explain Newton's second law of motion.",
+	sample_output: "F = ma",
+	locked: true,
+	last_used: "2024-01-12",
+      },
+    - task_code on automaattisesti generoitava api:n puolella turvallisuus-syistä.
+
+`POST : /api/exam-task/`
+    - varmistakaa, että silloin kun tämän luontipyynnon tekee joku, niin kaikki kenttä-arvot on oikein
+    - tarvittavat kenttä-arvot (emt käänsiks mä tän väärin lol):
+	- topic_area: enum (varmistakaa että se löytyy tietokannasta),
+	- theme,
+	- task_description,
+	- sample_output,
+    - kaikki muut arvot automaattisesti generoidaan api:n puolella
+    - pitää palauttaa luotu koetehtävä JSON:ina
+
+`PUT : /api/exam-task/`
+    - tarvittavat kenttä-arvot:
+	- kaikki arvot jotka koetehtävällä on, paitsi task_code (koska sitä ei voi muokata.)
+    - pitää palauttaa muokattu koetehtävä JSON:ina
+
+`DELETE : /api/exam-task/`
+    - parametrina vain task_code
+
+
+`GET : /api/exam-task-performances/`
+    - pitäisi palauttaa jokainen koe suoritustehtävä:
+      {
+	performance_id: 2,
+	first_name: "Jane",
+	last_name: "Smith",
+	group_number: "B2",
+	task_code: "B8KT09",
+	session_code: "S54321",
+	start_time: "2024-01-15T11:00:00Z",
+	submission: "F = ma",
+	status: "approved",
+	exam_completed: true,
+      },	
+    - exam_completed tässä kontekstissa kai tarkoittaa sitä onko opiskelija suorittanut
+      kaikki 6 tarvittavaa koetehtävää? ehkä...
+
+`PUT : /api/exam-task-performance/`
+    - pitäisi antaa jokainen arvo parametrina tähän pyyntöön.
+    - tämä on se api endpoint minkä administraattori kutsuu kun vaihtaa suorituksen esim statusta, tms.
+
+
+`GET : /api/learning-tasks/`
+    - palauttaa jokaisen oppimistehtävän:
+      { identifier: "LT101", name: "Essay Writing", task_description: "Write an essay on global warming." },
+
+`POST : /api/learning-task/`
+    - luo oppimistehtävän:
+    - tarvittavat kentät:
+	- name,
+	- task_description,
+    - pitää palauttaa luotu oppimistehtävä JSON:ina
+    
+`PUT : /api/learning-task/`
+    - muokkaa oppimistehtävää:
+    - tarvittavat kentät:
+	- identifier,
+	- name,
+	- task_description,
+
+`DELETE : /api/learning-task/`
+    - poistaa oppimistehtävän
+    - tarvittavat kentät:
+	- identifier
+
+
+
+
+
+
+
+	
